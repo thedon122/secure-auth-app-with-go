@@ -20,3 +20,13 @@ func Register(c *fiber.Ctx) error {
 	}
 
 	password, _ := bcrypt.GenerateFromPassword([]byte(data["password"]), 14)
+
+	user := models.User{
+		Name:     data["name"],
+		Email:    data["email"],
+		Password: password,
+	}
+
+	database.DB.Create(&user)
+
+	return c.JSON(user)
